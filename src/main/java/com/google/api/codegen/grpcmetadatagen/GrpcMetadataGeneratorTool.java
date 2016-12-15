@@ -14,7 +14,7 @@
  */
 package com.google.api.codegen.grpcmetadatagen;
 
-import com.google.api.codegen.metadatagen.py.PythonPackageCopier;
+import com.google.api.codegen.grpcmetadatagen.py.PythonPackageCopier;
 import com.google.api.tools.framework.tools.ToolOptions;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;

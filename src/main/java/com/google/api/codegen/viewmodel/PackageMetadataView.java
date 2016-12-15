@@ -41,7 +41,20 @@ public abstract class PackageMetadataView implements ViewModel {
 
   public abstract String serviceName();
 
-  public abstract String url();
+  /** The full name of the API, including branding. E.g., "Stackdriver Logging". */
+  public abstract String fullName();
+
+  /** A single-word short name of the API. E.g., "logging". */
+  public abstract String shortName();
+
+  /** The base name of the client library package. E.g., "google-cloud-logging-v1". */
+  public abstract String packageName();
+
+  /** The major version of the API, as used in the package name. E.g., "v1". */
+  public abstract String majorVersion();
+
+  /** The path to the API protos in the googleapis repo. */
+  public abstract String protoPath();
 
   public static Builder newBuilder() {
     return new AutoValue_PackageMetadataView.Builder();
@@ -63,7 +76,20 @@ public abstract class PackageMetadataView implements ViewModel {
 
     public abstract Builder serviceName(String val);
 
-    public abstract Builder url(String val);
+    /** The full name of the API, including branding. E.g., "Stackdriver Logging". */
+    public abstract Builder fullName(String val);
+
+    /** A single-word short name of the API. E.g., "logging". */
+    public abstract Builder shortName(String val);
+
+    /** The base name of the client library package. E.g., "google-cloud-logging-v1". */
+    public abstract Builder packageName(String val);
+
+    /** The major version of the API, as used in the package name. E.g., "v1". */
+    public abstract Builder majorVersion(String val);
+
+    /** The path to the API protos in the googleapis repo. */
+    public abstract Builder protoPath(String val);
 
     public abstract PackageMetadataView build();
   }
