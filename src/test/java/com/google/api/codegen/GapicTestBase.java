@@ -14,19 +14,10 @@
  */
 package com.google.api.codegen;
 
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.annotation.Nullable;
-
 import com.google.api.Service;
 import com.google.api.client.util.Strings;
 import com.google.api.codegen.config.ApiConfig;
+import com.google.api.codegen.config.PackageMetadataConfig;
 import com.google.api.codegen.gapic.GapicGeneratorConfig;
 import com.google.api.codegen.gapic.GapicProvider;
 import com.google.api.codegen.gapic.MainGapicProviderFactory;
@@ -35,6 +26,16 @@ import com.google.api.tools.framework.model.Model;
 import com.google.api.tools.framework.model.stages.Merged;
 import com.google.api.tools.framework.model.testing.ConfigBaselineTestCase;
 import com.google.api.tools.framework.snippet.Doc;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.annotation.Nullable;
 
 /** Base class for code generator baseline tests. */
 public abstract class GapicTestBase extends ConfigBaselineTestCase {
@@ -49,19 +50,21 @@ public abstract class GapicTestBase extends ConfigBaselineTestCase {
   private final String name;
   private final String idForFactory;
   private final String[] gapicConfigFileNames;
-  @Nullable
-  private final String packageConfigFileName;
+  @Nullable private final String packageConfigFileName;
   private final String snippetName;
   protected ConfigProto gapicConfig;
   protected PackageMetadataConfig packageConfig;
 
-  public GapicTestBase(String name, String idForFactory, String[] gapicConfigFileNames,
-      String snippetName) {
+  public GapicTestBase(
+      String name, String idForFactory, String[] gapicConfigFileNames, String snippetName) {
     this(name, idForFactory, gapicConfigFileNames, null, snippetName);
   }
 
   public GapicTestBase(
-      String name, String idForFactory, String[] gapicConfigFileNames, String packageConfigFileName,
+      String name,
+      String idForFactory,
+      String[] gapicConfigFileNames,
+      String packageConfigFileName,
       String snippetName) {
     this.name = name;
     this.idForFactory = idForFactory;
@@ -84,8 +87,9 @@ public abstract class GapicTestBase extends ConfigBaselineTestCase {
     System.out.println("pgfn: " + packageConfigFileName);
     if (!Strings.isNullOrEmpty(packageConfigFileName)) {
       try {
-        packageConfig = PackageMetadataConfig.createFromFile(Paths.get(packageConfigFileName));
-      } catch (IOException e) {
+        URI packageConfigUrl = getTestDataLocator().findTestData(packageConfigFileName).toURI();
+        packageConfig = PackageMetadataConfig.createFromFile(Paths.get(packageConfigUrl));
+      } catch (IOException | URISyntaxException e) {
         throw new IllegalArgumentException("Problem creating packageConfig");
       }
     }
@@ -141,16 +145,18 @@ public abstract class GapicTestBase extends ConfigBaselineTestCase {
         String fileNamePath = snippetFileName.split("\\.")[0];
         String fileName = fileNamePath.indexOf("/") > 0 ? fileNamePath.split("/")[1] : fileNamePath;
         String id = idForFactory + "_" + fileName;
-        testArgs.add(new Object[] {id, idForFactory, gapicConfigFileNames, packageConfigFileName,
-            snippetFileName});
+        testArgs.add(
+            new Object[] {
+              id, idForFactory, gapicConfigFileNames, packageConfigFileName, snippetFileName
+            });
       }
     }
     System.out.println((String) testArgs.get(0)[3]);
     return testArgs;
   }
 
-  public static List<Object[]> createTestedConfigs(String idForFactory,
-      String[] gapicConfigFileNames) {
+  public static List<Object[]> createTestedConfigs(
+      String idForFactory, String[] gapicConfigFileNames) {
     return createTestedConfigs(idForFactory, gapicConfigFileNames, null);
   }
 

@@ -35,11 +35,11 @@ public class GrpcMetadataGeneratorTool {
           .put(
               "python",
               Lists.newArrayList(
-                  "LICENSE.snip",
-                  "py/setup.py.snip",
-                  "py/README.rst.snip",
-                  "py/PUBLISHING.rst.snip",
-                  "py/MANIFEST.in.snip"))
+                  "metadatagen/LICENSE.snip",
+                  "metadatagen/py/setup.py.snip",
+                  "metadatagen/py/README.rst.snip",
+                  "metadatagen/py/PUBLISHING.rst.snip",
+                  "metadatagen/py/MANIFEST.in.snip"))
           .build();
 
   private static final Map<String, GrpcPackageCopier> COPIERS =

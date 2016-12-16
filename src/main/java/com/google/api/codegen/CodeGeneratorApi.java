@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.api.codegen.config.ApiConfig;
+import com.google.api.codegen.config.PackageMetadataConfig;
 import com.google.api.codegen.gapic.GapicGeneratorConfig;
 import com.google.api.codegen.gapic.GapicProvider;
 import com.google.api.codegen.gapic.GapicProviderFactory;
