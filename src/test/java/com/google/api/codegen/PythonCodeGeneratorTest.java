@@ -14,12 +14,14 @@
  */
 package com.google.api.codegen;
 
-import com.google.api.codegen.gapic.MainGapicProviderFactory;
 import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
+
+import com.google.api.codegen.gapic.MainGapicProviderFactory;
 
 /** Python code generator baseline tests. */
 public class PythonCodeGeneratorTest {
@@ -28,8 +30,9 @@ public class PythonCodeGeneratorTest {
   public static class PythonLibraryBaseline extends GapicTestBase {
 
     public PythonLibraryBaseline(
-        String name, String idForFactory, String[] gapicConfigFileNames, String snippetName) {
-      super(name, idForFactory, gapicConfigFileNames, snippetName);
+        String name, String idForFactory, String[] gapicConfigFileNames,
+        String packageConfigFileName, String snippetName) {
+      super(name, idForFactory, gapicConfigFileNames, packageConfigFileName, snippetName);
       getTestDataLocator()
           .addTestDataSource(com.google.api.codegen.py.PythonGapicContext.class, "");
     }
@@ -42,7 +45,7 @@ public class PythonCodeGeneratorTest {
     public static List<Object[]> testedConfigs() {
       return GapicTestBase.createTestedConfigs(
           MainGapicProviderFactory.PYTHON,
-          new String[] {"python_gapic.yaml", "library_gapic.yaml"});
+          new String[] {"python_gapic.yaml", "library_gapic.yaml"}, "library_pkg.yaml");
     }
 
     // Tests

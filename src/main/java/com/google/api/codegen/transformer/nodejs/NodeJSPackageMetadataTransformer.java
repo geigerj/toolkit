@@ -14,14 +14,15 @@
  */
 package com.google.api.codegen.transformer.nodejs;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import com.google.api.codegen.config.ApiConfig;
 import com.google.api.codegen.transformer.ModelToViewTransformer;
 import com.google.api.codegen.viewmodel.PackageMetadataView;
 import com.google.api.codegen.viewmodel.ViewModel;
 import com.google.api.tools.framework.model.Model;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /** Responsible for producing package metadata related views for NodeJS */
 public class NodeJSPackageMetadataTransformer implements ModelToViewTransformer {
@@ -57,7 +58,7 @@ public class NodeJSPackageMetadataTransformer implements ModelToViewTransformer 
         .version(PACKAGE_VERSION)
         .gaxVersion(GAX_VERSION)
         .protoVersion(PROTO_VERSION)
-        .url(PACKAGE_URL)
+        .protoPath(PACKAGE_URL)
         .serviceName(namer.getMetadataName())
         .build();
   }

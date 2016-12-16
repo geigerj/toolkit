@@ -1,5 +1,10 @@
 package com.google.api.codegen.transformer.py;
 
+import java.util.List;
+
+import javax.annotation.Nullable;
+
+import com.google.api.codegen.PackageMetadataConfig;
 import com.google.api.codegen.config.ApiConfig;
 import com.google.api.codegen.transformer.ModelToViewTransformer;
 import com.google.api.codegen.viewmodel.PackageMetadataView;
@@ -7,8 +12,6 @@ import com.google.api.codegen.viewmodel.ViewModel;
 import com.google.api.tools.framework.model.Model;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
-import java.util.List;
-import javax.annotation.Nullable;
 
 public class PythonPackageMetadataTransformer implements ModelToViewTransformer {
 
@@ -18,6 +21,11 @@ public class PythonPackageMetadataTransformer implements ModelToViewTransformer 
   private static final String GAX_VERSION = "0.15.0";
   private static final String PROTO_VERSION = "1.0.2";
   private static final String PACKAGE_URL = "https://github.com/googleapis/googleapis";
+  PackageMetadataConfig packageConfig;
+
+  public PythonPackageMetadataTransformer(PackageMetadataConfig packageConfig) {
+    this.packageConfig = packageConfig;
+  }
 
   @Override
   public List<ViewModel> transform(Model model, ApiConfig apiConfig) {
@@ -51,7 +59,7 @@ public class PythonPackageMetadataTransformer implements ModelToViewTransformer 
         .templateFileName(template)
         .outputPath(outputPath)
         .identifier(apiConfig.getDomainLayerLocation())
-        .version(PACKAGE_VERSION)
+        .version(packageConfig.majorVersion())
         .gaxVersion(GAX_VERSION)
         .protoVersion(PROTO_VERSION)
         .protoPath(PACKAGE_URL)

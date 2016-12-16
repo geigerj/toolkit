@@ -14,6 +14,12 @@
  */
 package com.google.api.codegen.gapic;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.apache.commons.lang3.NotImplementedException;
+
 import com.google.api.codegen.InterfaceView;
 import com.google.api.codegen.PackageMetadataConfig;
 import com.google.api.codegen.ProtoFileView;
@@ -50,10 +56,6 @@ import com.google.api.codegen.util.ruby.RubyNameFormatter;
 import com.google.api.tools.framework.model.Interface;
 import com.google.api.tools.framework.model.Model;
 import com.google.api.tools.framework.model.ProtoFile;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import org.apache.commons.lang3.NotImplementedException;
 
 /** MainGapicProviderFactory creates GapicProvider instances based on an id. */
 public class MainGapicProviderFactory
@@ -313,7 +315,7 @@ public class MainGapicProviderFactory
                 .setModel(model)
                 .setApiConfig(apiConfig)
                 .setSnippetSetRunner(new CommonSnippetSetRunner(new CommonRenderingUtil()))
-                .setModelToViewTransformer(new PythonPackageMetadataTransformer())
+                .setModelToViewTransformer(new PythonPackageMetadataTransformer(packageConfig))
                 .build();
 
         providers.add(mainProvider);
@@ -399,7 +401,7 @@ public class MainGapicProviderFactory
   /** Create the GapicProviders based on the given id */
   @Override
   public List<GapicProvider<? extends Object>> create(
-      Model model, ApiConfig apiConfig, GapicGeneratorConfig generatorConfig) {
-    return defaultCreate(model, apiConfig, generatorConfig, null);
+      Model model, ApiConfig apiConfig, GapicGeneratorConfig generatorConfig, PackageMetadataConfig packageConfig) {
+    return defaultCreate(model, apiConfig, generatorConfig, packageConfig);
   }
 }
