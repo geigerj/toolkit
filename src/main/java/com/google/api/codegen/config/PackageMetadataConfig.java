@@ -24,29 +24,49 @@ public abstract class PackageMetadataConfig {
     public abstract String upper();
   }
 
-  /** The version of GAX that this package depends on. Map of target language to name. */
-  public abstract Map<String, VersionBound> gaxVersion();
+  protected abstract Map<String, VersionBound> gaxVersion();
+
+  protected abstract Map<String, VersionBound> protoVersion();
+
+  protected abstract Map<String, VersionBound> commonProtosVersion();
+
+  protected abstract Map<String, VersionBound> packageVersion();
+
+  protected abstract Map<String, String> packageName();
+
+  /** The version of GAX that this package depends on. Configured per language. */
+  public VersionBound gaxVersion(String language) {
+    return getWithDefault(gaxVersion(), language);
+  }
 
   /**
    * The version of the protocol buffer package that this package depends on. Map of target language
    * to name.
    */
-  public abstract Map<String, VersionBound> protoVersion();
+  public VersionBound protoVersion(String language) {
+    return getWithDefault(protoVersion(), language);
+  }
 
   /**
-   * The version of the googleapis common protos package that this package depends on. Map of target
-   * language to name.
+   * The version of the googleapis common protos package that this package depends on. Configured
+   * per language.
    */
-  public abstract Map<String, VersionBound> commonProtosVersion();
+  public VersionBound commonProtosVersion(String language) {
+    return getWithDefault(commonProtosVersion(), language);
+  }
+
+  /** The version the client library package. E.g., "0.14.0". Configured per language. */
+  public VersionBound packageVersion(String language) {
+    return getWithDefault(packageVersion(), language);
+  }
 
   /**
-   * The base name of the client library package. E.g., "google-cloud-logging-v1". Map of target
-   * language to name.
+   * The base name of the client library package. E.g., "google-cloud-logging-v1". Configured per
+   * language.
    */
-  public abstract Map<String, String> packageName();
-
-  /** The version the client library package. E.g., "0.14.0". Map of target language to name. */
-  public abstract Map<String, VersionBound> packageVersion();
+  public String packageName(String language) {
+    return getWithDefault(packageName(), language);
+  }
 
   /** A single-word short name of the API. E.g., "logging". */
   public abstract String shortName();
@@ -160,5 +180,10 @@ public abstract class PackageMetadataConfig {
                 value.get("lower"), value.get("upper"));
           }
         });
+  }
+
+  private <T> T getWithDefault(Map<String, T> map, String index) {
+    T candidate = map.get(index);
+    return candidate == null ? map.get("default") : candidate;
   }
 }
