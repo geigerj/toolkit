@@ -19,6 +19,7 @@ import com.google.api.codegen.SnippetSetRunner;
 import com.google.api.codegen.TargetLanguage;
 import com.google.api.codegen.config.ApiConfig;
 import com.google.api.codegen.config.PackageMetadataConfig;
+import com.google.api.codegen.gapic.GapicProvider;
 import com.google.api.codegen.transformer.ModelToViewTransformer;
 import com.google.api.codegen.transformer.PackageMetadataTransformer;
 import com.google.api.codegen.viewmodel.SimpleViewModel;
@@ -36,9 +37,12 @@ public class PythonPackageMetadataTransformer implements ModelToViewTransformer 
 
   PackageMetadataConfig packageConfig;
   PackageMetadataTransformer metadataTransformer = new PackageMetadataTransformer();
+  List<GapicProvider<? extends Object>> providers;
 
-  public PythonPackageMetadataTransformer(PackageMetadataConfig packageConfig) {
+  public PythonPackageMetadataTransformer(
+      PackageMetadataConfig packageConfig, GapicProvider<? extends Object>... providers) {
     this.packageConfig = packageConfig;
+    this.providers = Lists.newArrayList(providers);
   }
 
   @Override

@@ -346,7 +346,8 @@ public class MainGapicProviderFactory
                 .setModel(model)
                 .setApiConfig(apiConfig)
                 .setSnippetSetRunner(new CommonSnippetSetRunner(new CommonRenderingUtil()))
-                .setModelToViewTransformer(new PythonPackageMetadataTransformer(packageConfig))
+                .setModelToViewTransformer(
+                    new PythonPackageMetadataTransformer(packageConfig, mainProvider, enumProvider))
                 .build();
 
         providers.add(mainProvider);
